@@ -11,17 +11,12 @@ import java.util.List;
 @Service
 public class ServicioEvento {
     private List<Evento> eventos = new ArrayList<>();
-    private List<Participante> participantes = new ArrayList<>();
 
     public ServicioEvento() {
         // Datos de prueba
         eventos.add(new Evento("Conferencia de Tecnología", LocalDate.now().plusDays(30), "Auditorio Principal", "conferencia"));
         eventos.add(new Evento("Boda de Juan y Ana", LocalDate.now().plusDays(60), "Jardín Central", "boda"));
         eventos.add(new Evento("Festival de Música", LocalDate.now().plusDays(90), "Plaza Central", "festival"));
-
-        participantes.add(new Participante("Juan Pérez", "juan.perez@example.com"));
-        participantes.add(new Participante("Ana Gómez", "ana.gomez@example.com"));
-        participantes.add(new Participante("Luis Rodríguez", "luis.rodriguez@example.com"));
     }
 
     public void addEvento(Evento evento) {
@@ -32,11 +27,23 @@ public class ServicioEvento {
         return eventos;
     }
 
-    public void addParticipante(Participante participante) {
-        participantes.add(participante);
+    // Nuevo método para agregar participante a un evento específico
+    public void addParticipanteAEvento(String nombreEvento, Participante participante) {
+        for (Evento evento : eventos) {
+            if (evento.getNombre().equals(nombreEvento)) {
+                evento.addParticipante(participante);
+                break;
+            }
+        }
     }
 
-    public List<Participante> listarParticipantes() {
-        return participantes;
+    // Nuevo método para listar los participantes de un evento específico
+    public List<Participante> listarParticipantesDeEvento(String nombreEvento) {
+        for (Evento evento : eventos) {
+            if (evento.getNombre().equals(nombreEvento)) {
+                return evento.getParticipantes();
+            }
+        }
+        return new ArrayList<>();
     }
 }
